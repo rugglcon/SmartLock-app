@@ -7,20 +7,28 @@ class LoginScreen extends React.Component {
   constructor(props) {
   super(props);
   this.state = {
-    username: false,
-    password: false,
+    username: '',
+    password: '',
     };
   }
   static navigationOptions = {
     title: 'Login',
   };
   _onLogin = () => {
-    if (this.state.username == false || this.state.password == false) {
+    if (this.state.username == '' || this.state.password == '') {
       Alert.alert('Enter both a username and password');
     }
     else {
       this.props.navigation.navigate('Home');
     }
+  }
+  _username = (text) => {
+    this.setState({text});
+    this.setState({ username: {text} });
+  }
+  _password = (text) => {
+    this.setState({text});
+    this.setState({ password: {text} });
   }
   render() {
     const { navigate } = this.props.navigation;
@@ -29,15 +37,13 @@ class LoginScreen extends React.Component {
         <TextInput
         style={{height: 50}}
         placeholder='Username'
-        onChangeText={(text) => this.setState({text})}
-        onSubmitEditing={() => this.setState({ username: true })}
+        onChangeText={(text) => this._username() }
         />
         <TextInput
         style={{height: 50}}
         placeholder='Password'
-        onChangeText={(text) => this.setState({text})}
+        onChangeText={(text) => this._password() }
         secureTextEntry={true}
-        onSubmitEditing={() => this.setState({ password: true })}
         />
         <Button color='#32CD32' title="Login" onPress={() => this._onLogin()}/>
       </View>
