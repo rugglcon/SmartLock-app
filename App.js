@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button, TextInput, Alert } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import ButtonComponent, { CircleButton, RoundButton, RectangleButton } from 'react-native-button-component';
 
+global.APIroot = 'http://my-json-server.typicode.com/bmeeder22/FakeJSONServer3';
+
 class LoginScreen extends React.Component {
   constructor(props) {
   super(props);
@@ -19,6 +21,15 @@ class LoginScreen extends React.Component {
       Alert.alert('Enter both a username and password');
     }
     else {
+      // fetch({global.APIroot} + '/login', {
+      //   method: 'POST',
+      //   headers: new Headers({
+      //     'Content-Type': 'text/json'
+      //   })
+      // }).then(function(json) {
+      //
+      // });
+
       // authenticate
       // get info from server
       global.userID = 1; // get from server
@@ -135,7 +146,7 @@ class LogScreen extends React.Component {
   listLockLogs() {
     return global.lockLog.map((data) => {
       return (
-        <View><Text> User #{data.uid} at {data.time} {'\n'} </Text></View>
+        <View key={Math.random()}><Text> User #{data.uid} at {data.time} {'\n'} </Text></View>
       )
     })
   }
