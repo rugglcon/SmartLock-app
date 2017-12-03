@@ -22,67 +22,46 @@ class LoginScreen extends React.Component {
     }
     else {
 
-      var response = '';
       var request = new XMLHttpRequest();
       request.onreadystatechange = e => {
         if (request.readyState !== 4) {
-          // if (request.readyState == 0) {
-          //   Alert.alert("0");
-          // }
-          // if (request.readyState == 1) {
-          //   Alert.alert("1");
-          // }
-          // if (request.readyState == 2) {
-          //   Alert.alert("2");
-          // }
-          // if (request.readyState == 3) {
-          //   Alert.alert("3", request.response);
-          // }
           return;
         }
         if (request.status === 200) {
-          Alert.alert("success", request.response);
+          Alert.alert("Welcome!");
         }
         else {
           Alert.alert("error", request.response);
+          this.props.navigation.dispatch(resetAction); // ??
         }
       };
       request.open("GET", "http://se329server-pi.local:8080/login?email=emily&password=emily", true);
       request.send();
 
-      // var response = '';
-      // var request = new XMLHttpRequest();
-      // request.onreadystatechange = e => {
-      //   if (request.readyState !== 4) {
-      //     if (request.readyState == 0) {
-      //       Alert.alert("0");
-      //     }
-      //     if (request.readyState == 1) {
-      //       Alert.alert("1", request.response);
-      //     }
-      //     if (request.readyState == 2) {
-      //       Alert.alert("2", request.response);
-      //     }
-      //     if (request.readyState == 3) {
-      //       Alert.alert("3", request.response);
-      //     }
-      //     return;
-      //   }
-      //   if (request.status === 200) {
-      //     Alert.alert("success", request.response);
-      //   }
-      //   else {
-      //     Alert.alert("error", request.response);
-      //   }
-      // };
-      // request.open("GET", "http://se329server-pi.local:8080/num_inside_users", true);
-      // request.send();
+      //
+
+      var request2 = new XMLHttpRequest();
+      request2.onreadystatechange = e => {
+        if (request2.readyState !== 4) {
+          return;
+        }
+        if (request2.status === 200) {
+          Alert.alert("Number of Residents Inside:", request2.response);
+        }
+        else {
+          Alert.alert("error", request2.response);
+        }
+      };
+      request2.open("GET", "http://se329server-pi.local:8080/num_inside_users", true);
+      request2.send();
+
+
 
       // get info from server
       //global.userID = 1; // get from server
       //global.lockID = 1; // get from server
-      global.lockLog = [{uid: 2, time: '1:00 PM'},{uid: 4, time: '11:15 AM'},{uid: 2, time: '9:30 AM'},{uid: 3, time: '7:00 AM'}]; // get from server
-      global.numInside = 2; // get from server
+      //global.lockLog = [{uid: 2, time: '1:00 PM'},{uid: 4, time: '11:15 AM'},{uid: 2, time: '9:30 AM'},{uid: 3, time: '7:00 AM'}]; // get from server
+      //global.numInside = 2; // get from server
       this.props.navigation.navigate('Home');
     }
   }
@@ -133,9 +112,6 @@ class HomeScreen extends React.Component {
   }
   _onButtonPress = () => {
     if (this.state.currentState == 'Locked') { // unlocking the door
-      // this.setState({ buttonTitle: 'Lock'});
-      // this.setState({ currentState: 'Unlocked' });
-
       var response = '';
       var request = new XMLHttpRequest();
       request.onreadystatechange = e => {
@@ -144,7 +120,7 @@ class HomeScreen extends React.Component {
           return;
         }
         if (request.status === 200) {
-          Alert.alert("success", request.response);
+          //Alert.alert("success", request.response);
         }
         else {
           Alert.alert("error", request.response);
@@ -152,7 +128,6 @@ class HomeScreen extends React.Component {
       };
       request.open("GET", "http://se329server-pi.local:8080/open_lock?user_id=1&lock_id=1", true);
       request.send();
-
 
       this.setState({ buttonTitle: 'Lock'});
       this.setState({ currentState: 'Unlocked' });
@@ -168,11 +143,10 @@ class HomeScreen extends React.Component {
       var request = new XMLHttpRequest();
       request.onreadystatechange = e => {
         if (request.readyState !== 4) {
-          //Alert.alert("not 4")
           return;
         }
         if (request.status === 200) {
-          Alert.alert("success", request.response);
+          //Alert.alert("success", request.response);
         }
         else {
           Alert.alert("error", request.response);
@@ -188,16 +162,18 @@ class HomeScreen extends React.Component {
       this._onButtonPress();
     }
   }
+
+  // <Button color='#32CD32' title='View Logs' onPress={() => navigate('Log')} />
+  // <Text> {this.state.relockMessage} {'\n'}</Text>
+  // <Text> There are currently {global.numInside} residents inside. {'\n'} {'\n'} </Text>
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text> Lock #{global.lockID} is {this.state.currentState}.</Text>
-        <Text> There are currently {global.numInside} residents inside. {'\n'} {'\n'} </Text>
-        <Text> Press to {this.state.buttonTitle}. </Text>
+        <Text> Lock is: {this.state.currentState}. {'\n'} </Text>
+        <Text> Press to {this.state.buttonTitle}. {'\n'}{'\n'} </Text>
         <Button color='#32CD32' title={this.state.buttonTitle} onPress={() => this._onButtonPress()}/>
-        <Text> {this.state.relockMessage} {'\n'}</Text>
-        <Button color='#32CD32' title='View Logs' onPress={() => navigate('Log')} />
+        <Text> {'\n'} </Text>
         <Button color='#D3D3D3' title='Logout' onPress={() => this._onLogout()} />
       </View>
     );
