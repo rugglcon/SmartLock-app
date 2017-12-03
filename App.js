@@ -21,19 +21,66 @@ class LoginScreen extends React.Component {
       Alert.alert('Enter both a username and password');
     }
     else {
-      // fetch({global.APIroot} + '/login', {
-      //   method: 'POST',
-      //   headers: new Headers({
-      //     'Content-Type': 'text/json'
-      //   })
-      // }).then(function(json) {
-      //
-      // });
 
-      // authenticate
+      var response = '';
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = e => {
+        if (request.readyState !== 4) {
+          // if (request.readyState == 0) {
+          //   Alert.alert("0");
+          // }
+          // if (request.readyState == 1) {
+          //   Alert.alert("1");
+          // }
+          // if (request.readyState == 2) {
+          //   Alert.alert("2");
+          // }
+          // if (request.readyState == 3) {
+          //   Alert.alert("3", request.response);
+          // }
+          return;
+        }
+        if (request.status === 200) {
+          Alert.alert("success", request.response);
+        }
+        else {
+          Alert.alert("error", request.response);
+        }
+      };
+      request.open("GET", "http://se329server-pi.local:8080/login?email=emily&password=emily", true);
+      request.send();
+
+      // var response = '';
+      // var request = new XMLHttpRequest();
+      // request.onreadystatechange = e => {
+      //   if (request.readyState !== 4) {
+      //     if (request.readyState == 0) {
+      //       Alert.alert("0");
+      //     }
+      //     if (request.readyState == 1) {
+      //       Alert.alert("1", request.response);
+      //     }
+      //     if (request.readyState == 2) {
+      //       Alert.alert("2", request.response);
+      //     }
+      //     if (request.readyState == 3) {
+      //       Alert.alert("3", request.response);
+      //     }
+      //     return;
+      //   }
+      //   if (request.status === 200) {
+      //     Alert.alert("success", request.response);
+      //   }
+      //   else {
+      //     Alert.alert("error", request.response);
+      //   }
+      // };
+      // request.open("GET", "http://se329server-pi.local:8080/num_inside_users", true);
+      // request.send();
+
       // get info from server
-      global.userID = 1; // get from server
-      global.lockID = 1; // get from server
+      //global.userID = 1; // get from server
+      //global.lockID = 1; // get from server
       global.lockLog = [{uid: 2, time: '1:00 PM'},{uid: 4, time: '11:15 AM'},{uid: 2, time: '9:30 AM'},{uid: 3, time: '7:00 AM'}]; // get from server
       global.numInside = 2; // get from server
       this.props.navigation.navigate('Home');
@@ -86,15 +133,54 @@ class HomeScreen extends React.Component {
   }
   _onButtonPress = () => {
     if (this.state.currentState == 'Locked') { // unlocking the door
+      // this.setState({ buttonTitle: 'Lock'});
+      // this.setState({ currentState: 'Unlocked' });
+
+      var response = '';
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = e => {
+        if (request.readyState !== 4) {
+          //Alert.alert("not 4")
+          return;
+        }
+        if (request.status === 200) {
+          Alert.alert("success", request.response);
+        }
+        else {
+          Alert.alert("error", request.response);
+        }
+      };
+      request.open("GET", "http://se329server-pi.local:8080/open_lock?user_id=1&lock_id=1", true);
+      request.send();
+
+
       this.setState({ buttonTitle: 'Lock'});
       this.setState({ currentState: 'Unlocked' });
-      this.setState({ relockMessage: 'The door will automatically relock in 30 seconds.' });
-      setTimeout(() => this._relock(), 5000); // 5 seconds currently
+      //this.setState({ relockMessage: 'The door will automatically relock in 30 seconds.' });
+      //setTimeout(() => this._relock(), 5000); // 5 seconds currently
     }
     else { // locking the door
       this.setState({ buttonTitle: 'Unlock'});
       this.setState({ currentState: 'Locked' });
       this.setState({ relockMessage: '' });
+
+      var response = '';
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = e => {
+        if (request.readyState !== 4) {
+          //Alert.alert("not 4")
+          return;
+        }
+        if (request.status === 200) {
+          Alert.alert("success", request.response);
+        }
+        else {
+          Alert.alert("error", request.response);
+        }
+      };
+      request.open("GET", "http://se329server-pi.local:8080/close_lock?user_id=1&lock_id=1", true);
+      request.send();
+
     }
   }
   _relock = () => {
