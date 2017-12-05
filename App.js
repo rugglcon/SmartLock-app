@@ -25,6 +25,15 @@ class LoginScreen extends React.Component {
       var request = new XMLHttpRequest();
       request.onreadystatechange = e => {
         if (request.readyState !== 4) {
+          // if (request.readyState == 1) {
+          //   Alert.alert("1");
+          // }
+          // if (request.readyState == 2) {
+          //   Alert.alert("2");
+          // }
+          // if (request.readyState == 3) {
+          //   Alert.alert("3");
+          // }
           return;
         }
         if (request.status === 200) {
@@ -52,7 +61,7 @@ class LoginScreen extends React.Component {
           Alert.alert("error", request2.response);
         }
       };
-      request2.open("GET", "http://se329server-pi.local:8080/num_inside_users", true);
+      request2.open("GET", "http://se329server-pi.local:8080/num_inside_users?user_id=1", true);
       request2.send();
 
 
